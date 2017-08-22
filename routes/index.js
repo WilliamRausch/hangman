@@ -4,10 +4,17 @@ const fs = require("fs");
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toUpperCase().split("\n");
 console.log(words);
 console.log("hello!");
+let word =words[Math.floor(Math.random()*words.length)];
+console.log(word);
+console.log(word.length);
 
 //logic
-let answer = ["T","R","U","C","K"];
-let spaces = ["_","_","_","_","_"];
+let answer = word.split("");
+let spaces = [];
+for(i=0;i<word.length;i++){
+	spaces.push("_");
+}
+console.log(spaces);
 let wrongGuesses = 0;
 let rightGuesses = 0;
 let data = {
@@ -43,9 +50,7 @@ function check(guess){
 	}
 	console.log(rightGuesses + "Right"+ wrongGuesses + "Wrong");
 }
-check("T");
-check("A");
-check("R");
+
 
 //logic
 router.get("/", function(req, res) {
@@ -55,7 +60,9 @@ router.get("/", function(req, res) {
 });
 router.post("/",function(req,res){
 	check(req.body.guess);
+	req.session.token = `${word}`;
 	res.redirect("/");
+
 })
 
 module.exports = router;
