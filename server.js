@@ -4,6 +4,7 @@ const mustacheExpress  = require("mustache-express");
 const routes           = require("./routes/index");
 const bodyParser       = require("body-parser");
 const expressValidator = require("express-validator");
+const session = require("express-session");
 const app              = express();
 const fs = require("fs");
 
@@ -15,6 +16,11 @@ app.set("layout", "layout");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(expressValidator());
+app.use(session({
+  secret: "Hangman",
+  resave: false,
+  saveUninitialized: false
+}));
 
 app.use(routes);
 
